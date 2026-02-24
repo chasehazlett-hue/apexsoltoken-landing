@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apex Sol (APEX) — Solana Token</title>
+  <meta name="description" content="Apex Sol (APEX) on Solana — live market, tokenomics, and roadmap." />
+
+  <style>
+    :root{
+      --bg:#06070b;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.08);
+      --text:#e9eef7;
+      --muted:#a9b4c7;
+      --border: rgba(255,255,255,.12);
+      --glow: 0 0 0 1px rgba(255,255,255,.08), 0 18px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(90,190,255,.12), transparent 60%),
+        radial-gradient(1000px 500px at 80% 20%, rgba(190,90,255,.12), transparent 60%),
+        radial-gradient(900px 500px at 50% 90%, rgba(90,255,190,.10), transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 70px}
+
+    /* header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 14px;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      box-shadow: var(--glow);
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex; align-items:center; gap:14px; min-width:0}
+    .brand img{
+      width:54px; height:54px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:#0b0e15;
+      object-fit:cover;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .brand h1{margin:0; font-size:20px; letter-spacing:.2px}
+    .brand .sub{margin-top:3px; color:var(--muted); font-size:13px}
+    .actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      text-decoration:none;
+      font-size:13px;
+      color:var(--text);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.24)}
+    .pill{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color:var(--muted);
+      font-size:12px;
+      max-width:520px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    /* layout */
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr}
+      .actions{justify-content:flex-start}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius);
+      box-shadow: var(--glow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd h2{margin:0; font-size:15px; letter-spacing:.2px}
+    .card .bd{padding:14px}
+
+    /* market */
+    .market{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    .stat{
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+    .stat .k{color:var(--muted); font-size:12px; margin-bottom:6px}
+    .stat .v{font-size:16px; font-weight:700}
+    .stat .s{color:var(--muted); font-size:12px; margin-top:6px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+
+    .note{color:var(--muted); font-size:12px; line-height:1.45; margin:10px 0 0}
+
+    /* dex embed */
+    .iframeWrap{
+      aspect-ratio: 16/10;
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:#070913;
+    }
+    iframe{width:100%; height:100%; border:0}
+
+    /* images */
+    .imgGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    .imgCard{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+    }
+    .imgCard img{
+      width:100%;
+      display:block;
+      height:auto;
+    }
+    .imgCap{
+      padding:10px 12px;
+      color:var(--muted);
+      font-size:12px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      opacity:.9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <!-- Put your logo image at: ./logo.png -->
+        <img src="./logo.png" alt="Apex Sol logo" />
+        <div style="min-width:0">
+          <h1>Apex Sol <span style="color:var(--muted); font-weight:600">(APEX)</span></h1>
+          <div class="sub">Live market • Tokenomics • Roadmap</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="pill mono" id="mintPill" title="Token mint address">
+          Mint: DYM3LABVcxLv7RsoyoypSv42oLNUyzzKUsdJE1Ma1BRf
+        </div>
+        <a class="btn" id="phantomLink" target="_blank" rel="noopener">View in Phantom</a>
+        <button class="btn" id="copyMint">Copy Mint</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: Market + Chart -->
+      <section class="card">
+        <div class="hd">
+          <h2>Market</h2>
+          <a class="btn" id="dexLink" target="_blank" rel="noopener">Open on DexScreener</a>
+        </div>
+        <div class="bd">
+          <div class="market" id="marketStats">
+            <div class="stat">
+              <div class="k">Price (USD)</div>
+              <div class="v" id="price">$—</div>
+              <div class="s" id="priceChange">24h: —</div>
+            </div>
+            <div class="stat">
+              <div class="k">Liquidity (USD)</div>
+              <div class="v" id="liquidity">$—</div>
+              <div class="s" id="dexName">DEX: —</div>
+            </div>
+            <div class="stat">
+              <div class="k">FDV (USD)</div>
+              <div class="v" id="fdv">$—</div>
+              <div class="s" id="pairLabel">Pair: —</div>
+            </div>
+            <div class="stat">
+              <div class="k">24h Volume (USD)</div>
+              <div class="v" id="volume">$—</div>
+              <div class="s" id="lastUpdated">Updated: —</div>
+            </div>
+          </div>
+
+          <p class="note">
+            Market data is pulled from DexScreener’s public API and refreshed automatically.
+            If your token has multiple pairs, this page shows the most liquid pair it finds.
+          </p>
+
+          <div style="height:12px"></div>
+
+          <div class="iframeWrap">
+            <!-- Live chart embed -->
+            <iframe
+              id="dexIframe"
+              title="Dex chart"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              allow="clipboard-read; clipboard-write"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Tokenomics + Roadmap images -->
+      <aside class="card">
+        <div class="hd">
+          <h2>Tokenomics & Roadmap</h2>
+        </div>
+        <div class="bd">
+          <div class="imgGrid">
+            <!-- Put your images at: ./tokenomics.jpg and ./roadmap.jpg -->
+            <div class="imgCard">
+              <img src="./tokenomics.jpg" alt="Apex Sol tokenomics" />
+              <div class="imgCap">Tokenomics</div>
+            </div>
+            <div class="imgCard">
+              <img src="./roadmap.jpg" alt="Apex Sol roadmap" />
+              <div class="imgCap">Roadmap</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      © <span id="yr"></span> Apex Sol • Built for Solana • No socials linked
+    </footer>
+  </div>
+
+  <script>
+    // ====== CONFIG ======
+    const TOKEN_MINT = "DYM3LABVcxLv7RsoyoypSv42oLNUyzzKUsdJE1Ma1BRf";
+    const PHANTOM_URL = "https://phantom.com/tokens/solana/" + TOKEN_MINT + "?referralId=bz8muygopq4";
+
+    // DexScreener token endpoint
+    const DEX_API = "https://api.dexscreener.com/latest/dex/tokens/" + TOKEN_MINT;
+
+    // Best-effort DexScreener chart link / embed
+    const DEX_TOKEN_PAGE = "https://dexscreener.com/solana/" + TOKEN_MINT;
+    const DEX_EMBED = DEX_TOKEN_PAGE + "?embed=1&theme=dark&trades=0&info=0";
+
+    // ====== UI WIRING ======
+    document.getElementById("phantomLink").href = PHANTOM_URL;
+    document.getElementById("dexLink").href = DEX_TOKEN_PAGE;
+    document.getElementById("dexIframe").src = DEX_EMBED;
+    document.getElementById("yr").textContent = new Date().getFullYear();
+
+    document.getElementById("copyMint").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(TOKEN_MINT);
+        const btn = document.getElementById("copyMint");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => btn.textContent = old, 1000);
+      }catch(e){
+        alert("Couldn’t copy. Mint: " + TOKEN_MINT);
+      }
+    });
+
+    // ====== HELPERS ======
+    const fmtUSD = (n) => {
+      if (n === null || n === undefined || Number.isNaN(n)) return "—";
+      const num = Number(n);
+      if (!Number.isFinite(num)) return "—";
+      return num.toLocaleString(undefined, { style:"currency", currency:"USD", maximumFractionDigits: num < 1 ? 6 : 2 });
+    };
+
+    const fmtCompactUSD = (n) => {
+      if (n === null || n === undefined || Number.isNaN(n)) return "—";
+      const num = Number(n);
+      if (!Number.isFinite(num)) return "—";
+      // compact display for large numbers
+      return num.toLocaleString(undefined, { style:"currency", currency:"USD", notation:"compact", maximumFractionDigits: 2 });
+    };
+
+    const pickMostLiquidPair = (pairs=[]) => {
+      // choose the pair with the highest liquidity.usd
+      let best = null;
+      for (const p of pairs){
+        const liq = p?.liquidity?.usd ?? 0;
+        if (!best || liq > (best?.liquidity?.usd ?? 0)) best = p;
+      }
+      return best;
+    };
+
+    function setText(id, value){ document.getElementById(id).textContent = value; }
+
+    // ====== MARKET FETCH ======
+    async function refreshMarket(){
+      try{
+        const res = await fetch(DEX_API, { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+
+        const best = pickMostLiquidPair(data?.pairs || []);
+        if (!best){
+          setText("lastUpdated", "Updated: no pair data");
+          return;
+        }
+
+        const priceUsd = best.priceUsd ? Number(best.priceUsd) : null;
+        const liqUsd = best?.liquidity?.usd ?? null;
+        const vol24 = best?.volume?.h24 ?? null;
+        const fdv = best?.fdv ?? null;
+
+        setText("price", fmtUSD(priceUsd));
+        const ch = best?.priceChange?.h24;
+        setText("priceChange", "24h: " + (ch === undefined ? "—" : (Number(ch) >= 0 ? "+" : "") + Number(ch).toFixed(2) + "%"));
+
+        setText("liquidity", fmtCompactUSD(liqUsd));
+        setText("volume", fmtCompactUSD(vol24));
+        setText("fdv", fmtCompactUSD(fdv));
+
+        setText("dexName", "DEX: " + (best?.dexId ? best.dexId : "—"));
+        const base = best?.baseToken?.symbol ? best.baseToken.symbol : "APEX";
+        const quote = best?.quoteToken?.symbol ? best.quoteToken.symbol : "SOL";
+        setText("pairLabel", "Pair: " + base + " / " + quote);
+
+        const now = new Date();
+        setText("lastUpdated", "Updated: " + now.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" }));
+
+        // If DexScreener returns a specific pair URL, use it for iframe/link
+        if (best?.url){
+          document.getElementById("dexLink").href = best.url;
+          document.getElementById("dexIframe").src = best.url + "?embed=1&theme=dark&trades=0&info=0";
+        }
+      }catch(err){
+        setText("lastUpdated", "Updated: error fetching market");
+        // Keep page usable even if API is blocked
+        console.warn("Market fetch failed:", err);
+      }
+    }
+
+    refreshMarket();
+    setInterval(refreshMarket, 30000); // refresh every 30s
+  </script>
+</body>
+</html>
